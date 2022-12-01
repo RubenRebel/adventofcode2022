@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Linq;
 
 namespace AdventofCode2022
 {
@@ -43,18 +42,6 @@ namespace AdventofCode2022
                 }
             }
             return output;
-        }
-
-        public void LogPuzzleInformation(int day, string puzzleName)
-        {
-            Console.WriteLine($"--- Day {day}: {puzzleName} ---");
-        }
-
-        public void LogPuzzleAnswer(int answer, string puzzleName)
-        {
-            Console.WriteLine($"--- Answer for puzzle {puzzleName}: {answer} ---");
-            Console.WriteLine();
-        }
+        }        
     }
 }
-

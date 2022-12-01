@@ -17,9 +17,8 @@ namespace AdventofCode2022
             }
             catch (Exception ex)
             {
-                Console.WriteLine("The file could not be read:");
-                Console.WriteLine(ex.Message);
-                throw;
+                Console.WriteLine($"The file could not be read: {ex.Message}");
+                return "";
             }
         }
     }

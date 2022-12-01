@@ -6,7 +6,7 @@ namespace AdventofCode2022
         public CalculationUtilities()
         {  }
 
-        public int FindLargestGroup(List<List<int>> input, int amountOfGroups)
+        public List<int> SumGroupTotals(List<List<int>> input)
         {
             var groupTotals = new List<int>();
             foreach (var group in input)
@@ -18,7 +18,7 @@ namespace AdventofCode2022
                 }
                 groupTotals.Add(total);
             }
-            return groupTotals.OrderByDescending(g => g).Select(g => g).Take(amountOfGroups).Sum();
+            return groupTotals;
         }
     }
 }
