@@ -58,6 +58,7 @@ namespace AdventofCode2022.Solutions
 
             for (int i = 0; i < plays.Count; i++)
             {
+                // lekker de spatie er tussen laten want ik haal die er eerder ook niet uit hehe
                 result.Add(plays[i][0] + " " + weaponChoices[i]);
             }
 
