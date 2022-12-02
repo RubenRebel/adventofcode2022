@@ -20,7 +20,7 @@ namespace AdventofCode2022.Solutions
         private List<List<int>> PrepareCalorieData()
         {
             var elfCalorieContent = fileReader.ConvertFileContentToString("/Users/rubenbernecker/Documents/AdventOfCode2022_Resources/ElvesCalories.txt");
-            var caloriesGroupedToString = stringUtils.SplitStringsOnNewLines(elfCalorieContent);
+            var caloriesGroupedToString = stringUtils.GroupStringsOnNewLinesSplit(elfCalorieContent);
             var caloriesGroupedToInt = new List<List<int>>();
 
             foreach (var stringList in caloriesGroupedToString)

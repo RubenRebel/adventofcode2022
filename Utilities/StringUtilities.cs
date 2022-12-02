@@ -7,7 +7,7 @@ namespace AdventofCode2022
         public StringUtilities()
         { }
 
-        public List<List<string>> SplitStringsOnNewLines(string input)
+        public List<List<string>> GroupStringsOnNewLinesSplit(string input)
         {
             var split = input.Split(new String[] { Environment.NewLine }, StringSplitOptions.None);
             var result = new List<List<string>>();
@@ -27,6 +27,12 @@ namespace AdventofCode2022
             return result;
         }
 
+        public List<string> SplitStringsOnNewLines(string input)
+        {
+            var split = input.Split(new String[] { Environment.NewLine }, StringSplitOptions.None);           
+            return split.ToList();
+        }
+
         public List<int> ConvertStringListToIntList(List<string> input)
         {
             var output = new List<int>();
@@ -42,6 +48,8 @@ namespace AdventofCode2022
                 }
             }
             return output;
-        }        
+        }
+
+
     }
 }
