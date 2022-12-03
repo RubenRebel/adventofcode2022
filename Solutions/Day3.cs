@@ -21,6 +21,8 @@ namespace AdventofCode2022.Solutions
                     }                   
                 }
             }
+            LogPuzzleInformation(3, "Rucksack Reorganization part one");
+            LogPuzzleAnswer(answerPartOne, "Rucksack Reorganization");
 
             var index = 0;
             var answerPartTwo = 0;
@@ -36,6 +38,8 @@ namespace AdventofCode2022.Solutions
                     }
                 }             
             }
+            LogPuzzleInformation(3, "Rucksack Reorganization part two");
+            LogPuzzleAnswer(answerPartTwo, "Rucksack Reorganization");
         }
 
         private int PriorityOfItem(char item)

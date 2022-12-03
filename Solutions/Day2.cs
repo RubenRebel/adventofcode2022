@@ -12,12 +12,12 @@ namespace AdventofCode2022.Solutions
           
             var answerPartOne = CalculateTotalScore(plays);
             LogPuzzleInformation(2, "Rock Paper Scissors part one");
-            LogPuzzleAnswer(answerPartOne, "Total score");
+            LogPuzzleAnswer(answerPartOne, "Rock Paper Scissors");
 
             var convertedPlays = ConvertPlaysAccordingToStrategy(plays);
             var answerPartTwo = CalculateTotalScore(convertedPlays);
             LogPuzzleInformation(2, "Rock Paper Scissors part two");
-            LogPuzzleAnswer(answerPartTwo, "Total score");
+            LogPuzzleAnswer(answerPartTwo, "Rock Paper Scissors");
         }
 
         private int CalculateTotalScore(List<string> plays)
