@@ -87,7 +87,7 @@ namespace AdventofCode2022.Solutions
                 }
             }
             LogPuzzleInformation(5, $"Supply Stacks part {part}");
-            LogPuzzleAnswer(result, "Camp Cleanup");
+            LogPuzzleAnswer(result, "Supply Stacks");
         }
 
         private List<Stack<char>> LoadFloorConfiguration()
