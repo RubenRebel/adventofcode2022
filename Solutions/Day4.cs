@@ -33,6 +33,11 @@ namespace AdventofCode2022.Solutions
                     answerPartTwo += 1;
                 }
             }
+
+            LogPuzzleInformation(4, "Camp Cleanup part one");
+            LogPuzzleAnswer(answerPartOne, "Camp Cleanup"); 
+            LogPuzzleInformation(4, "Camp Cleanup part two");
+            LogPuzzleAnswer(answerPartTwo, "Camp Cleanup");
         }
     }
 }
