@@ -19,7 +19,7 @@ namespace AdventofCode2022.Solutions
             Console.WriteLine($"--- Day {day}: {puzzleName} ---");
         }
 
-        public void LogPuzzleAnswer(int answer, string puzzleName)
+        public void LogPuzzleAnswer(string answer, string puzzleName)
         {
             Console.WriteLine($"--- Answer for puzzle {puzzleName}: {answer} ---");
             Console.WriteLine();

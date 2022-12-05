@@ -35,9 +35,9 @@ namespace AdventofCode2022.Solutions
             }
 
             LogPuzzleInformation(4, "Camp Cleanup part one");
-            LogPuzzleAnswer(answerPartOne, "Camp Cleanup"); 
+            LogPuzzleAnswer(answerPartOne.ToString(), "Camp Cleanup"); 
             LogPuzzleInformation(4, "Camp Cleanup part two");
-            LogPuzzleAnswer(answerPartTwo, "Camp Cleanup");
+            LogPuzzleAnswer(answerPartTwo.ToString(), "Camp Cleanup");
         }
     }
 }

@@ -10,11 +10,11 @@ namespace AdventofCode2022.Solutions
 
             var answerPartOne = orderedGroupTotals.Take(1).Sum();
             LogPuzzleInformation(1, "Calorie Counting part one");
-            LogPuzzleAnswer(answerPartOne, "Calorie Counting");
+            LogPuzzleAnswer(answerPartOne.ToString(), "Calorie Counting");
 
             var answerPartTwo = orderedGroupTotals.Take(3).Sum();
             LogPuzzleInformation(1, "Calorie Counting part two");
-            LogPuzzleAnswer(answerPartTwo, "Calorie Counting");
+            LogPuzzleAnswer(answerPartTwo.ToString(), "Calorie Counting");
         }
 
         private List<List<int>> PrepareCalorieData()
