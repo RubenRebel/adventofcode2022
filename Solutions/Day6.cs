@@ -42,4 +42,3 @@ namespace AdventofCode2022.Solutions
         }
     }
 }
-
