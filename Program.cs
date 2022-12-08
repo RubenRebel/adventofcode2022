@@ -11,6 +11,7 @@ var calculationUtils = new CalculationUtilities();
 //var day4 = new Day4(reader, stringUtils, calculationUtils);
 //var day5 = new Day5(reader, stringUtils, calculationUtils);
 //var day6 = new Day6(reader, stringUtils, calculationUtils);
-var day7 = new Day7(reader, stringUtils, calculationUtils);
+//var day7 = new Day7(reader, stringUtils, calculationUtils);
+var day8 = new Day8(reader, stringUtils, calculationUtils);
 
 Console.ReadKey();
