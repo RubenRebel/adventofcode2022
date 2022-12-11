@@ -29,7 +29,6 @@ namespace AdventofCode2022.Solutions
 
             LogPuzzleInformation(10, "Cathode-Ray Tube part two");
 
-
             while (Tasks.Count() > 0)
             {
                 var rowIndex = 0;

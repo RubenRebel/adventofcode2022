@@ -27,6 +27,28 @@ namespace AdventofCode2022
             return result;
         }
 
+        public List<List<string>> GroupStringsOnNewLinesSplit2(string input)
+        {
+            var split = input.Split(new String[] { Environment.NewLine }, StringSplitOptions.None);
+            var result = new List<List<string>>();
+            var stringGroup = new List<string>();
+
+            foreach (var stringItem in split)
+            {
+                if (string.IsNullOrEmpty(stringItem))
+                {
+                    result.Add(stringGroup);
+                    stringGroup = new List<string>();
+                }
+                else
+                {
+                    stringGroup.Add(stringItem);
+                }
+            }
+            result.Add(stringGroup);
+            return result;
+        }
+
         public List<string> SplitStringsOnNewLines(string input)
         {
             var split = input.Split(new String[] { Environment.NewLine }, StringSplitOptions.None);           
