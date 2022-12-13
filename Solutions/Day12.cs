@@ -122,7 +122,7 @@ namespace AdventofCode2022.Solutions
                 }
 
                 var GCost = GetCurrentPathLength();
-                //add check for shorter
+
                 if (GCost < neighbour.GCost || !OpenNodes.Contains(neighbour))
                 {
                     var HCost = ReturnPositiveDifference(DestinationPosition.X, neighbour.Location.X, DestinationPosition.Y, neighbour.Location.Y);
