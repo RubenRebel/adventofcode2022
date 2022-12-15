@@ -12,17 +12,26 @@ namespace AdventofCode2022.Solutions
         char Air = '.';
         char Sand = 'o';
         char SandSource = '+';
+        Point SandSourcePosition = new Point(500, 0);
 
         List<Tile> Cave;
         List<List<Point>> RockPaths;
+
+        int MapStartX;
+        int MapStartY = 0;
+        int MapEndX;
+        int MapEndY;
 
         public Day14(FileReader fReader, StringUtilities strUtils, CalculationUtilities calcUtils) : base(fReader, strUtils, calcUtils)
         {
             var regolithInput = fileReader.ConvertFileContentToString("/Users/rubenbernecker/Documents/AdventOfCode2022_Resources/regolith.txt");
             var split = stringUtils.SplitStringsOnNewLines(regolithInput);
             PrepareCave(split);
-            //FlowSand();
-            DrawCave();
+            FlowSand();
+        }
+
+        private void PrepareCave(List<string> input)
+        {
             // to prepare map
             // keep track of 2 lists:
             //  list<list<Point>> of rockPaths containing points of rock coordinates
@@ -32,19 +41,6 @@ namespace AdventofCode2022.Solutions
             // Fill cave list with all coordinates between this range and:
             // set Value to rock (#) if the coordinate is in rockPaths or set Value to + if coordinate is 500,0. Else Value is air
 
-            // to make sand fall
-            // start at 500,0
-            // keep track of current position
-            // If  y + 1 and x is air. if so adjust current position
-            // else if y + 1 and x - 1 is air. if so adjust current position
-            // else if y + 1 and x + 1 is air. if so adjust current position
-            // else sand cannot move any further. Draw 0 in current position and increase unit of sand counter
-            // repeat above process until:
-            // current position x or y exceeds map range, meaning sand falls into the void. Print sand counter which is answer for puzzle
-        }
-
-        private void PrepareCave(List<string> input)
-        {
             Cave = new List<Tile>();
             RockPaths = new List<List<Point>>();
 
@@ -96,18 +92,20 @@ namespace AdventofCode2022.Solutions
                 RockPaths.Add(path);
             }
 
-            // second get cave grid
-            var startX = RockPaths.SelectMany(m => m).Min(p => p.X);
-            var endX = RockPaths.SelectMany(m => m).Max(p => p.X);
-            var endY = RockPaths.SelectMany(m => m).Max(p => p.Y);
-            for (int y = 0; y <= endY; y++)
+            // second make cave grid
+            // here I add a column to the right and left (-1 and +1). I need this column
+            // to check if the sand falls into it
+            MapStartX = RockPaths.SelectMany(m => m).Min(p => p.X) - 1;
+            MapEndX = RockPaths.SelectMany(m => m).Max(p => p.X) + 1;
+            MapEndY = RockPaths.SelectMany(m => m).Max(p => p.Y);
+            for (int y = MapStartY; y <= MapEndY; y++)
             {
-                for (int x = startX; x <= endX; x++)
+                for (int x = MapStartX; x <= MapEndX; x++)
                 {
                     var point = new Point(x, y);
                     var tile = new Tile();
                     tile.Location = point;
-                    if (x == 500 && y == 0)
+                    if (x == SandSourcePosition.X && y == SandSourcePosition.Y)
                     {
                         tile.Value = SandSource;
                     }
@@ -124,14 +122,63 @@ namespace AdventofCode2022.Solutions
             }
         }
 
-
         private void FlowSand()
         {
+            // start at 500,0
+            // keep track of current position
+            // If  y + 1 and x is air. if so adjust current position
+            // else if y + 1 and x - 1 is air. if so adjust current position
+            // else if y + 1 and x + 1 is air. if so adjust current position
+            // else sand cannot move any further. Draw 0 in current position and increase unit of sand counter
+            // repeat above process until:
+            // if the x position of current is in either of the map's edges sand falls into the void. Print sand counter which is answer for puzzle
+            var sandCounter = 0;
+            var currentPosition = SandSourcePosition;
+            var dumb = 0;
+            while (true)
+            {
+                var down = Cave.Where(tile => tile.Location.X == currentPosition.X && tile.Location.Y == currentPosition.Y + 1).FirstOrDefault();
+                if (down != null && down.Value == Air)
+                {
+                    currentPosition = down.Location;
+                    continue;
+                }
 
+                var downLeft = Cave.Where(tile => tile.Location.X == currentPosition.X - 1 && tile.Location.Y == currentPosition.Y + 1).FirstOrDefault();
+                if (downLeft != null && downLeft.Value == Air)
+                {
+                    currentPosition = downLeft.Location;
+                    continue;
+                }
+
+                var downRight = Cave.Where(tile => tile.Location.X == currentPosition.X + 1 && tile.Location.Y == currentPosition.Y + 1).FirstOrDefault();
+                if (downRight != null && downRight.Value == Air)
+                {
+                    currentPosition = downRight.Location;
+                    continue;
+                }
+
+                // sand cannot move any further.
+                var currentTile = Cave.Where(tile => tile.Location.X == currentPosition.X  && tile.Location.Y == currentPosition.Y).First();
+
+                if (currentPosition.X == MapStartX || currentPosition.X == MapEndX)
+                {
+                    break;
+                }
+
+                currentPosition = SandSourcePosition;
+                currentTile.Value = Sand;
+                sandCounter++;
+            }
+            DrawCave();
+
+            LogPuzzleInformation(14, $"Regolith Reservoir part one");
+            LogPuzzleAnswer(sandCounter.ToString(), $"Regolith Reservoir part part one");
         }
 
         private void DrawCave()
         {
+            Console.Clear();
             var start = Cave[0].Location;
             var end = Cave[Cave.Count() - 1].Location;
             var index = 0;
@@ -146,10 +193,10 @@ namespace AdventofCode2022.Solutions
             }
         }
     }
+
     internal class Tile
     {
         public Point Location { get; set; }
         public char Value { get; set; }
     }
 }
-
