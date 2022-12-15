@@ -24,5 +24,10 @@ namespace AdventofCode2022.Solutions
             Console.WriteLine($"--- Answer for puzzle {puzzleName}: {answer} ---");
             Console.WriteLine();
         }
+
+        public void PrintStopwatchTime(TimeSpan ts)
+        {
+            Console.WriteLine("RunTime " + ts.TotalMilliseconds + " ms");
+        }
     }
 }
