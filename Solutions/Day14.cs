@@ -21,26 +21,28 @@ namespace AdventofCode2022.Solutions
         int MapStartY = 0;
         int MapEndX;
         int MapEndY;
+        int SandCounter = 0;
 
         public Day14(FileReader fReader, StringUtilities strUtils, CalculationUtilities calcUtils) : base(fReader, strUtils, calcUtils)
         {
             var regolithInput = fileReader.ConvertFileContentToString("/Users/rubenbernecker/Documents/AdventOfCode2022_Resources/regolith.txt");
             var split = stringUtils.SplitStringsOnNewLines(regolithInput);
-            PrepareCave(split);
-            FlowSand();
-        }
 
+            // part one
+            PrepareCave(split);
+            FlowSand(false);
+            LogPuzzleInformation(14, $"Regolith Reservoir part one");
+            LogPuzzleAnswer(SandCounter.ToString(), $"Regolith Reservoir part part one");
+
+            //part two
+            SandCounter = 0;
+            InsertFloor();
+            FlowSand(true);
+            LogPuzzleInformation(14, $"Regolith Reservoir part two");
+            LogPuzzleAnswer(SandCounter.ToString(), $"Regolith Reservoir part part two");
+        }
         private void PrepareCave(List<string> input)
         {
-            // to prepare map
-            // keep track of 2 lists:
-            //  list<list<Point>> of rockPaths containing points of rock coordinates
-            //  list<Tile> of cave containing Tile elements
-            // for each line in regolitInput add the coordinates of the path to the rockPaths
-            // get the coordinate min and max range of the point list
-            // Fill cave list with all coordinates between this range and:
-            // set Value to rock (#) if the coordinate is in rockPaths or set Value to + if coordinate is 500,0. Else Value is air
-
             Cave = new List<Tile>();
             RockPaths = new List<List<Point>>();
 
@@ -122,19 +124,10 @@ namespace AdventofCode2022.Solutions
             }
         }
 
-        private void FlowSand()
+        private void FlowSand(bool partTwo)
         {
-            // start at 500,0
-            // keep track of current position
-            // If  y + 1 and x is air. if so adjust current position
-            // else if y + 1 and x - 1 is air. if so adjust current position
-            // else if y + 1 and x + 1 is air. if so adjust current position
-            // else sand cannot move any further. Draw 0 in current position and increase unit of sand counter
-            // repeat above process until:
-            // if the x position of current is in either of the map's edges sand falls into the void. Print sand counter which is answer for puzzle
-            var sandCounter = 0;
             var currentPosition = SandSourcePosition;
-            var dumb = 0;
+
             while (true)
             {
                 var down = Cave.Where(tile => tile.Location.X == currentPosition.X && tile.Location.Y == currentPosition.Y + 1).FirstOrDefault();
@@ -160,31 +153,89 @@ namespace AdventofCode2022.Solutions
 
                 // sand cannot move any further.
                 var currentTile = Cave.Where(tile => tile.Location.X == currentPosition.X  && tile.Location.Y == currentPosition.Y).First();
-
+               
                 if (currentPosition.X == MapStartX || currentPosition.X == MapEndX)
+                {
+                    if (!partTwo)
+                    {
+                        break;
+                    }
+                    ExtendFloor();
+                }
+
+                currentTile.Value = Sand;
+                SandCounter++;
+                if (partTwo && currentPosition == SandSourcePosition)
                 {
                     break;
                 }
-
                 currentPosition = SandSourcePosition;
-                currentTile.Value = Sand;
-                sandCounter++;
-            }
-            DrawCave();
+            }          
+        }
 
-            LogPuzzleInformation(14, $"Regolith Reservoir part one");
-            LogPuzzleAnswer(sandCounter.ToString(), $"Regolith Reservoir part part one");
+        private void InsertFloor()
+        {
+            for (int x = MapStartX; x <= MapEndX; x++)
+            {
+                var newFloor = new Tile()
+                {
+                    Location = new Point(x, MapEndY + 1),
+                    Value = Air
+                };
+                Cave.Add(newFloor);
+            }
+            MapEndY += 1;
+
+            for (int x = MapStartX; x <= MapEndX; x++)
+            {
+                var newFloor = new Tile()
+                {
+                    Location = new Point(x, MapEndY + 1),
+                    Value = Rock
+                };
+                Cave.Add(newFloor);
+            }
+            MapEndY += 1;
+        }
+
+        private void ExtendFloor()
+        {
+            // extend left
+            for (int i = MapStartY; i <= MapEndY; i++)
+            {
+                var floorStart = Cave.FindIndex(tile => tile.Location.X == MapStartX && tile.Location.Y == i);
+
+                var newFloorStart = new Tile()
+                {
+                    Location = new Point(MapStartX - 1, i),
+                    Value = i == MapEndY ? Rock : Air
+                };
+                Cave.Insert(floorStart, newFloorStart);
+            }
+
+            // extend right
+            for (int i = MapStartY; i <= MapEndY; i++)
+            {
+                var floorEnd = Cave.FindIndex(tile => tile.Location.X == MapEndX && tile.Location.Y == i);
+                var newFloorEnd = new Tile()
+                {
+                    Location = new Point(MapEndX + 1, i),
+                    Value = i == MapEndY ? Rock : Air
+                };
+                Cave.Insert(floorEnd + 1, newFloorEnd);
+            }
+
+            MapStartX -= 1;
+            MapEndX += 1;
         }
 
         private void DrawCave()
         {
             Console.Clear();
-            var start = Cave[0].Location;
-            var end = Cave[Cave.Count() - 1].Location;
             var index = 0;
-            for (int y = start.Y; y <= end.Y; y++)
+            for (int y = MapStartY; y <= MapEndY; y++)
             {
-                for (int x = start.X; x <= end.X; x++)
+                for (int x = MapStartX; x <= MapEndX; x++)
                 {
                     Console.Write(Cave[index].Value);
                     index++;
