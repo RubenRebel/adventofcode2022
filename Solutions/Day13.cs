@@ -33,8 +33,7 @@ namespace AdventofCode2022.Solutions
                 packets.Add(GetPackets(packetPairs[pair][1]));
             }
 
-            int stupid = 0;
-            while (!ordered && stupid < 10000)
+            while (!ordered)
             {
                 ordered = true;
                 for (int packet = 0; packet < packets.Count() - 1; packet++)
@@ -53,7 +52,6 @@ namespace AdventofCode2022.Solutions
                         ordered = false;
                     }
                 }
-                stupid++;
             }
             var deviderPositions = new List<int>();
 
@@ -147,7 +145,7 @@ namespace AdventofCode2022.Solutions
 
                 if (i + 1 == firstPair.Children.Count())
                 {
-                    if (secondPair.Children.Count() > firstPair.Children.Count())
+                    if (secondPair.Children.Count() > firstPair.Children.Count() || firstPair.Depth < secondPair.Depth)
                     {
                         SortedPair = true;
                         Found = true;
@@ -177,6 +175,7 @@ namespace AdventofCode2022.Solutions
                     newEl.Parent = currentElement;
                     currentElement.Children.Add(newEl);
                     currentElement = newEl;
+                    result.Depth++;
                     continue;
                 }
 
@@ -210,6 +209,7 @@ namespace AdventofCode2022.Solutions
         public List<Element> Children { get; set; }
         public int Value { get; set; }
         public bool Devider { get; set; }
+        public int Depth { get; set; }
 
         public Element()
         {
